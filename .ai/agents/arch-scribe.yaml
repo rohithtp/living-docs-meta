@@ -1,0 +1,30 @@
+id: arch-scribe
+description: Drafts architecture, specifications, flows, and simulations for human review.
+skills:
+  - spec-synthesizer
+  - flow-mapper
+  - simulation-designer
+triggers:
+  - on-demand
+  - pull-request-label: ai:draft-spec
+read:
+  - adr/**
+  - architecture/**
+  - specs/**
+  - flows/**
+  - simulations/**
+write:
+  - specs/**
+  - flows/**
+  - simulations/**
+guardrails:
+  require-human-review: true
+  never-commit-to-main: true
+  never-approve-pull-requests: true
+  immutable-paths:
+    - adr/**
+    - evidences/**
+  protected-paths:
+    - .ai/**
+    - schemas/**
+    - standards.md

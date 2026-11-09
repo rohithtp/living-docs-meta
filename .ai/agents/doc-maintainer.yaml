@@ -1,0 +1,32 @@
+id: doc-maintainer
+description: Audits freshness and diagram references, then proposes remediation tasks.
+skills:
+  - doc-staleness-auditor
+  - diagram-sync
+  - adr-drafter
+triggers:
+  - weekly
+  - linked-repository-pull-request
+read:
+  - adr/**
+  - architecture/**
+  - specs/**
+  - impl-notes/**
+  - flows/**
+  - simulations/**
+  - sop/**
+  - runbooks/**
+  - postmortems/**
+  - evidences/**
+  - tasks/**
+write:
+  - tasks/**
+guardrails:
+  require-human-review: true
+  never-commit-to-main: true
+  never-approve-pull-requests: true
+  never-edit-accepted-adr-or-evidence: true
+  protected-paths:
+    - .ai/**
+    - schemas/**
+    - standards.md

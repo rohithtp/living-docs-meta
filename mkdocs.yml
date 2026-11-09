@@ -1,0 +1,27 @@
+site_name: Living Docs Meta
+site_description: Canonical, relationship-aware engineering documentation
+docs_dir: .
+site_dir: site
+exclude_docs: |
+  .ai/
+  .github/
+  scripts/
+  plan/
+  requirements.txt
+  catalog/
+  schemas/
+  adr/
+  architecture/
+  specs/
+  impl-notes/
+  flows/
+  simulations/
+  sop/
+  runbooks/
+  postmortems/
+  evidences/
+  tasks/
+  diagrams/
+nav:
+  - Home: readme.md
+  - Standards: standards.md

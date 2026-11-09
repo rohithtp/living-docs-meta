@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/frontmatter.schema.json",
+  "title": "Living documentation artifact frontmatter",
+  "type": "object",
+  "required": ["id", "type", "title", "version", "status", "owner", "service", "created_at", "last_reviewed", "review_cadence_days"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[A-Z][A-Z0-9]*-[0-9]{3,4}$" },
+    "type": { "enum": ["adr", "architecture", "spec", "impl-note", "flow", "simulation", "sop", "runbook", "postmortem", "evidence", "task"] },
+    "title": { "type": "string", "minLength": 1 },
+    "version": { "type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$" },
+    "status": { "enum": ["draft", "review", "active", "deprecated", "superseded"] },
+    "owner": { "type": "string", "minLength": 1 },
+    "service": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "created_at": { "type": "string", "format": "date" },
+    "last_reviewed": { "type": "string", "format": "date" },
+    "review_cadence_days": { "enum": [90, 180, 365] },
+    "ai_assisted": { "type": "boolean" },
+    "agent_id": { "type": "string", "minLength": 1 },
+    "priority": { "enum": ["p0", "p1", "p2", "p3"] },
+    "task_status": { "enum": ["open", "in-progress", "blocked", "done", "wont-fix"] },
+    "relationships": {
+      "type": "object",
+      "properties": {
+        "implements": { "$ref": "#/$defs/idList" },
+        "realizes": { "$ref": "#/$defs/idList" },
+        "validates": { "$ref": "#/$defs/idList" },
+        "evidenced_by": { "$ref": "#/$defs/idList" },
+        "verifies": { "$ref": "#/$defs/idList" },
+        "tracked_by": { "$ref": "#/$defs/idList" },
+        "resolves": { "$ref": "#/$defs/idList" },
+        "depends_on": { "$ref": "#/$defs/idList" },
+        "blocked_by": { "$ref": "#/$defs/idList" },
+        "supersedes": { "$ref": "#/$defs/idList" },
+        "superseded_by": { "$ref": "#/$defs/idList" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    { "if": { "properties": { "type": { "const": "task" } }, "required": ["type"] }, "then": { "required": ["priority", "task_status"] } },
+    { "if": { "properties": { "ai_assisted": { "const": true } }, "required": ["ai_assisted"] }, "then": { "required": ["agent_id"] } }
+  ],
+  "$defs": {
+    "idList": { "type": "array", "items": { "type": "string", "pattern": "^[A-Z][A-Z0-9]*-[0-9]{3,4}$" }, "uniqueItems": true }
+  },
+  "additionalProperties": false
+}
